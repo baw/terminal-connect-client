@@ -9,6 +9,11 @@ var opts = require("nomnom").options({ command: {
     position: 1,
     help: "arguments to pass to the command",
     list: true
+}, verbose: {
+    abbr: "v",
+    flag: true,
+    help: "print output from command to console"
+    }
 }).parse();
 
 var socket = io.connect("http://localhost:8000/terminal");
@@ -24,26 +29,35 @@ var running = spawn(command, commandArgv);
 
 socket.emit("command", command + " " + commandArgv.join(" "));
 
+var write = function (text) {
+    if (opts.verbose === true) process.stdout.write(text);
+    sendLine(text);
+};
+
+var writeError = function (text) {
+    if (opts.verbose === true) process.stderr.write(text);
+};
+
 running.stdout.on("data", function (data) {
-    console.log("std data");
     var text = data.toString("utf8");
     
-    process.stdout.write(text);
-    sendLine(text);
+    write(text);
 });
 
 running.stderr.on("data", function (data) {
-    console.log("error data");
-    process.stdout.write(data);
+    writeError(data);
 });
 
 running.on("close", function (code) {
-    console.log("close");
-    console.log("process closed with code: " + code);
+    write("process closed with code: " + code);
+    process.exitCode = code;
+    
     socket.disconnect();
 });
 
 running.on("error", function () {
-    process.stdout.write("error");
-    process.stdout.write([].join.call(arguments, "\n"));
+    writeError("error");
+    writeError([].join.call(arguments, "\n"));
+    
+    process.exitCode = 1;
 });

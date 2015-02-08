@@ -4,5 +4,8 @@
   "description": "The CLI component to display terminal output to a webpage.",
   "main": "index.js",
   "author": "Brian Weiser",
-  "license": "none"
+  "license": "none",
+  "dependencies": {
+    "socket.io-client": "^1.3.3"
+  }
 }

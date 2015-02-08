@@ -19,7 +19,13 @@ var opts = require("nomnom").options({ command: {
 var socket = io.connect("http://localhost:8000/terminal");
 
 var sendLine = function (line) {
+    line = line.toString("utf8");
     socket.emit("terminal-output", line);
+};
+
+var sendError = function (line) {
+    line = line.toString("utf8");
+    socket.emit("terminal-error", line);
 };
 
 var command = opts.command;
@@ -36,12 +42,11 @@ var write = function (text) {
 
 var writeError = function (text) {
     if (opts.verbose === true) process.stderr.write(text);
+    sendError(text);
 };
 
 running.stdout.on("data", function (data) {
-    var text = data.toString("utf8");
-    
-    write(text);
+    write(data);
 });
 
 running.stderr.on("data", function (data) {

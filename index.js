@@ -12,6 +12,8 @@ var commandArgv = process.argv.slice(3);
 
 var running = spawn(command, commandArgv);
 
+socket.emit("command", command + " " + commandArgv.join(" "));
+
 running.stdout.on("data", function (data) {
     console.log("std data");
     var text = data.toString("utf8");

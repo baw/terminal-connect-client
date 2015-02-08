@@ -1,14 +1,24 @@
 var spawn = require("child_process").spawn;
 var io = require("socket.io-client");
 
+var opts = require("nomnom").options({ command: {
+    position: 0,
+    help: "command to run",
+    list: false
+}, args: {
+    position: 1,
+    help: "arguments to pass to the command",
+    list: true
+}).parse();
+
 var socket = io.connect("http://localhost:8000/terminal");
 
 var sendLine = function (line) {
     socket.emit("terminal-output", line);
 };
 
-var command = process.argv[2];
-var commandArgv = process.argv.slice(3);
+var command = opts.command;
+var commandArgv = opts.args;
 
 var running = spawn(command, commandArgv);
 

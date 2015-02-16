@@ -10,6 +10,7 @@
     "socket.io-client": "^1.3.3"
   },
   "devDependencies": {
-    "mock-socket": "0.0.8"
+    "mock-socket": "0.0.8",
+    "mock-spawn": "^0.2.3"
   }
 }

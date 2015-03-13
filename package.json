@@ -13,5 +13,8 @@
     "mock-socket": "0.0.8",
     "mock-spawn": "^0.2.3",
     "mockery": "^1.4.0"
+  },
+  "bin": {
+    "tc": "index.js"
   }
 }

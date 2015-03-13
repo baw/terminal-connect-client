@@ -1,6 +1,6 @@
 {
   "name": "terminal-connect-client",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "The CLI component to display terminal output to a webpage.",
   "main": "index.js",
   "author": "Brian Weiser",

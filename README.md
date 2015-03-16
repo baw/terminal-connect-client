@@ -1,3 +1,5 @@
+![Dependencies status](https://david-dm.org/imamathwiz/terminal-connect-client.svg)
+
 Terminal Connect Client
 ========
 
